@@ -1,6 +1,6 @@
 .snake-block {
   width: 10px;
   height: 10px;
-  background-color: blue;
+  background-color: rgb(9, 255, 87);
   position: fixed;
 }
