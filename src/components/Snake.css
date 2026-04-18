@@ -1,6 +1,50 @@
 .snake-block {
-  width: 10px;
-  height: 10px;
+  width: 30px;
+  height: 30px;
   background-color: rgb(9, 255, 87);
   position: fixed;
+}
+
+.snake-head {
+  width: 30px;
+  height: 30px;
+  background-color: green;
+  border-radius: 50%; /* makes it round */
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* eyes */
+.snake-head::before,
+.snake-head::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  background: white;
+  border-radius: 50%;
+}
+
+.snake-head.up {
+  transform: rotate(0deg);
+}
+
+.snake-head.right {
+  transform: rotate(90deg);
+}
+
+.snake-head.down {
+  transform: rotate(180deg);
+}
+
+.snake-head.left {
+  transform: rotate(270deg);
+}
+.snake-tail {
+  width: 20px;
+  height: 20px;
+  background-color: darkgreen;
+  border-radius: 50% 50% 30% 30%;
+  position: absolute;
 }

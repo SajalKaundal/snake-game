@@ -1,13 +1,23 @@
 import { useEffect, useState } from "react";
-import "./Snake.css"
+import "./Snake.css";
 
-function Snake() {
+function fruitBit(fruitX, fruitY, headX, headY) {
+  if (fruitX === headX && fruitY === headY) {
+    return true;
+  }
+  return false;
+}
+
+function Snake({ x, y, setX, setY }) {
   const [direction, setDirection] = useState("Up");
+
+  const cellSize = 30;
 
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const [snake, setSnake] = useState( Array.from({ length: 10 }, (_, i) => ({ x: 0, y: i*10 })));
-
+  const [snake, setSnake] = useState(
+    Array.from({ length: 10 }, (_, i) => ({ x: 0, y: i * 30 })),
+  );
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -45,38 +55,55 @@ function Snake() {
         const newSnake = [...prev];
         const head = { ...newSnake[0] };
 
+        const maxX = Math.floor(width / cellSize) * cellSize;
+        const maxY = Math.floor(height / cellSize) * cellSize;
+
         if (direction === "Up") {
-          if (head.y < 1) {
-            head.y = height;
+          if (head.y <= 0) {
+            head.y = maxY - cellSize;
           } else {
-            head.y -= 10;
+            head.y -= cellSize;
           }
         }
-        if (direction === "Down")
-          if (head.y > height - 10) {
-            head.y = 1;
+
+        if (direction === "Down") {
+          if (head.y >= maxY - cellSize) {
+            head.y = 0;
           } else {
-            head.y += 10;
+            head.y += cellSize;
           }
-        if (direction === "Left")
-          if (head.x < 1) {
-            head.x = width;
+        }
+
+        if (direction === "Left") {
+          if (head.x <= 0) {
+            head.x = maxX - cellSize;
           } else {
-            head.x -= 10;
+            head.x -= cellSize;
           }
-        if (direction === "Right")
-          if (head.x > width - 10) {
-            head.x = 1;
+        }
+
+        if (direction === "Right") {
+          if (head.x >= maxX - cellSize) {
+            head.x = 0;
           } else {
-            head.x += 10;
+            head.x += cellSize;
           }
+        }
 
         newSnake.unshift(head); // add new head
-        newSnake.pop(); // remove tail
+        console.log(x, y, head.x, head.y);
+        if (fruitBit(x, y, head.x, head.y)) {
+          const maxX = Math.floor(width / cellSize);
+          const maxY = Math.floor(height / cellSize);
+          setX(Math.floor(Math.random() * maxX) * cellSize);
+          setY(Math.floor(Math.random() * maxY) * cellSize);
+        } else {
+          newSnake.pop(); // remove tail
+        }
 
         return newSnake;
       });
-    }, 50);
+    }, 100);
 
     return () => clearInterval(interval);
   }, [direction]);
@@ -88,12 +115,12 @@ function Snake() {
         {snake.map((segment, index) => (
           <div
             key={index}
-            className="snake-block"
+            className={`${index === 0 && "snake-head"} ${index === snake.length - 1 && "snake-tail"} snake-block ${direction.toLowerCase()}`}
             style={{
               top: segment.y,
               left: segment.x,
             }}
-          />
+          > <div className={(index===0&&index===snake.length)&&"snake-round"}></div></div>
         ))}
       </div>
     </>
