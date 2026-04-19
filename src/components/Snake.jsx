@@ -1,23 +1,24 @@
 import { useEffect, useState } from "react";
 import "./Snake.css";
+import generateFruit from "../utils/generateFruit";
+import gameOver from "../utils/gameOver";
+import GameOver from "./GameOver";
 
-function fruitBit(fruitX, fruitY, headX, headY) {
-  if (fruitX === headX && fruitY === headY) {
-    return true;
-  }
-  return false;
+function fruitBit(fruits, headX, headY) {
+  
+  const hitIndex = fruits.findIndex((f) => f.x === headX && f.y === headY);
+  return hitIndex
 }
 
-function Snake({ x, y, setX, setY }) {
+function Snake({ snake, setSnake, setFruits, fruits }) {
+  const [speed,setSpeed] = useState(100)
   const [direction, setDirection] = useState("Up");
+  const [visible,setVisible] = useState("d-none")
 
   const cellSize = 30;
 
   const width = window.innerWidth;
   const height = window.innerHeight;
-  const [snake, setSnake] = useState(
-    Array.from({ length: 10 }, (_, i) => ({ x: 0, y: i * 30 })),
-  );
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -91,37 +92,55 @@ function Snake({ x, y, setX, setY }) {
         }
 
         newSnake.unshift(head); // add new head
-        console.log(x, y, head.x, head.y);
-        if (fruitBit(x, y, head.x, head.y)) {
-          const maxX = Math.floor(width / cellSize);
-          const maxY = Math.floor(height / cellSize);
-          setX(Math.floor(Math.random() * maxX) * cellSize);
-          setY(Math.floor(Math.random() * maxY) * cellSize);
+        if(gameOver(newSnake)){
+          clearInterval(interval)
+          setVisible("d-block")
+        }
+        // console.log(x, y, head.x, head.y);
+        const index = fruitBit(fruits, head.x, head.y);
+        if (index !== -1) {
+          // setSpeed((prev)=>prev-2)
+          setFruits((prev) => {
+            const newFruits = [...prev];
+            newFruits[index] = generateFruit(newSnake);
+            return newFruits;
+          });
         } else {
           newSnake.pop(); // remove tail
         }
 
         return newSnake;
       });
-    }, 100);
+    }, speed);
 
     return () => clearInterval(interval);
-  }, [direction]);
+  }, [direction,speed]);
   // console.log(`topPosition ${topPosition}`);
   // console.log(`leftPostion ${leftPosition}`);
   return (
     <>
-      <div style={{ width: "100vw", height: "100vh" }}>
+      <div className="d-flex align-items-center justify-content-center" style={{ width: "100vw", height: "100vh" }}>
+        <div>{speed}</div>
         {snake.map((segment, index) => (
           <div
             key={index}
-            className={`${index === 0 && "snake-head"} ${index === snake.length - 1 && "snake-tail"} snake-block ${direction.toLowerCase()}`}
+            className={`snake-block 
+              ${index === 0 ? "snake-head" : ""}
+              ${index === snake.length - 1 ? "snake-tail" : ""}
+              ${direction.toLowerCase()}
+            `}
             style={{
               top: segment.y,
               left: segment.x,
             }}
-          > <div className={(index===0&&index===snake.length)&&"snake-round"}></div></div>
+          >
+            {" "}
+            <div
+              className={index === 0 && index === snake.length && "snake-round"}
+            ></div>
+          </div>
         ))}
+        <GameOver visible={visible} setVisible={setVisible}/>
       </div>
     </>
   );

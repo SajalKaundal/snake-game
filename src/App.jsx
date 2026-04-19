@@ -2,20 +2,26 @@ import "./App.css";
 import Fruits from "./components/Fruits";
 import Snake from "./components/Snake";
 import { useState } from "react";
-function App() {
-  const width = window.innerWidth;
-  const height = window.innerHeight;
+import generateFruit from "./utils/generateFruit";
+import GameOver from "./components/GameOver";
 
-  const [x, setX] = useState(
-    () => Math.floor(Math.random() * (width / 30)) * 30,
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+function App() {
+  const [snake, setSnake] = useState(
+    Array.from({ length: 10 }, (_, i) => ({ x: 0, y: i * 30 })),
   );
-  const [y, setY] = useState(
-    () => Math.floor(Math.random() * (height / 30)) * 30,
+  const [fruits, setFruits] = useState(
+    Array.from({ length: 4 }, () => generateFruit(snake)),
   );
+  
+  // console.log(fruits)
   return (
     <>
-      <Snake x={x} y={y} setX={setX} setY={setY} />
-      <Fruits x={x} y={y} />
+      <Snake snake={snake} setSnake={setSnake} setFruits={setFruits} fruits={fruits}/>
+      <Fruits fruits={fruits} />
+      
     </>
   );
 }

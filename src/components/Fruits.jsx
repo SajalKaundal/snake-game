@@ -1,6 +1,7 @@
 // import { useEffect} from "react";
 
-const Fruits = ({x,y}) => {
+const Fruits = ({ fruits }) => {
+  console.log(fruits);
   // useEffect(()=>{
   //   window.addEventListener("keydown", (e) => {
   //     console.log(e.key)
@@ -13,16 +14,20 @@ const Fruits = ({x,y}) => {
 
   return (
     <>
-      <div
-        style={{
-          position: "fixed",
-          height: "30px",
-          width: "30px",
-          backgroundColor:"red",
-          top: y,
-          left: x,
-        }}
-      ></div>
+      {fruits.map((f) => {
+        return (
+          <div
+            style={{
+              position: "fixed",
+              height: "30px",
+              width: "30px",
+              backgroundColor: "red",
+              top: f.y,
+              left: f.x,
+            }}
+          ></div>
+        );
+      })}
     </>
   );
 };
