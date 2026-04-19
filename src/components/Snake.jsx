@@ -5,50 +5,44 @@ import gameOver from "../utils/gameOver";
 import GameOver from "./GameOver";
 
 function fruitBit(fruits, headX, headY) {
-  
   const hitIndex = fruits.findIndex((f) => f.x === headX && f.y === headY);
-  return hitIndex
+  return hitIndex;
 }
 
 function Snake({ snake, setSnake, setFruits, fruits }) {
-  const [speed,setSpeed] = useState(100)
+  const [speed, setSpeed] = useState(100);
   const [direction, setDirection] = useState("Up");
-  const [visible,setVisible] = useState("d-none")
-
+  const [visible, setVisible] = useState("d-none");
+  const [isGameOver, setIsGameOver] = useState(false);
+  
   const cellSize = 30;
-
+  
   const width = window.innerWidth;
   const height = window.innerHeight;
-
+ 
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      const key = e.key.toUpperCase();
-      if ((key === "ARROWUP" || key === "W") && direction !== "Down") {
-        // setTopPosition((prev) => prev - 10);
-        setDirection("Up");
-      } else if ((key === "ARROWDOWN" || key === "S") && direction !== "Up") {
-        // setTopPosition((prev) => prev + 10);
-        setDirection("Down");
-      } else if (
-        (key === "ARROWRIGHT" || key === "D") &&
-        direction !== "Left"
-      ) {
-        // setLeftPosition((prev) => prev + 10);
-        setDirection("Right");
-      } else if (
-        (key === "ARROWLEFT" || key === "A") &&
-        direction !== "Right"
-      ) {
-        // setLeftPosition((prev) => prev - 10);
-        setDirection("Left");
-      }
-    };
+     const handleKeyDown = (e) => {
+    const key = e.key.toUpperCase();
+    if ((key === "ARROWUP" || key === "W") && direction !== "Down") {
+      // setTopPosition((prev) => prev - 10);
+      setDirection("Up");
+    } else if ((key === "ARROWDOWN" || key === "S") && direction !== "Up") {
+      // setTopPosition((prev) => prev + 10);
+      setDirection("Down");
+    } else if ((key === "ARROWRIGHT" || key === "D") && direction !== "Left") {
+      // setLeftPosition((prev) => prev + 10);
+      setDirection("Right");
+    } else if ((key === "ARROWLEFT" || key === "A") && direction !== "Right") {
+      // setLeftPosition((prev) => prev - 10);
+      setDirection("Left");
+    }
+  };
     window.addEventListener("keydown", handleKeyDown);
-
+    if(isGameOver) {window.removeEventListener("keydown",handleKeyDown)}
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [direction]);
+  }, [direction])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -91,11 +85,6 @@ function Snake({ snake, setSnake, setFruits, fruits }) {
           }
         }
 
-        newSnake.unshift(head); // add new head
-        if(gameOver(newSnake)){
-          clearInterval(interval)
-          setVisible("d-block")
-        }
         // console.log(x, y, head.x, head.y);
         const index = fruitBit(fruits, head.x, head.y);
         if (index !== -1) {
@@ -108,18 +97,27 @@ function Snake({ snake, setSnake, setFruits, fruits }) {
         } else {
           newSnake.pop(); // remove tail
         }
+        newSnake.unshift(head); // add new head
+        if (gameOver(newSnake)) {
+          clearInterval(interval);
+          setVisible("d-block");
+          setIsGameOver(true)
+        }
 
         return newSnake;
       });
     }, speed);
 
     return () => clearInterval(interval);
-  }, [direction,speed]);
+  }, [direction, fruits, height, setFruits, setSnake, speed, width]);
   // console.log(`topPosition ${topPosition}`);
   // console.log(`leftPostion ${leftPosition}`);
   return (
     <>
-      <div className="d-flex align-items-center justify-content-center" style={{ width: "100vw", height: "100vh" }}>
+      <div
+        className="d-flex align-items-center justify-content-center"
+        style={{ width: "100vw", height: "100vh" }}
+      >
         <div>{speed}</div>
         {snake.map((segment, index) => (
           <div
@@ -140,7 +138,7 @@ function Snake({ snake, setSnake, setFruits, fruits }) {
             ></div>
           </div>
         ))}
-        <GameOver visible={visible} setVisible={setVisible}/>
+        <GameOver visible={visible} setVisible={setVisible} />
       </div>
     </>
   );

@@ -5,15 +5,13 @@ import { useState } from "react";
 import generateFruit from "./utils/generateFruit";
 import GameOver from "./components/GameOver";
 
-const width = window.innerWidth;
-const height = window.innerHeight;
 
 function App() {
   const [snake, setSnake] = useState(
     Array.from({ length: 10 }, (_, i) => ({ x: 0, y: i * 30 })),
   );
   const [fruits, setFruits] = useState(
-    Array.from({ length: 4 }, () => generateFruit(snake)),
+    Array.from({ length: 20 }, () => generateFruit(snake)),
   );
   
   // console.log(fruits)
