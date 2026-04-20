@@ -1,7 +1,7 @@
 // import { useEffect} from "react";
-
+import apple from '../assets/snake/apple.png'
 const Fruits = ({ fruits }) => {
-  console.log(fruits);
+  // console.log(fruits);
   // useEffect(()=>{
   //   window.addEventListener("keydown", (e) => {
   //     console.log(e.key)
@@ -21,9 +21,11 @@ const Fruits = ({ fruits }) => {
               position: "fixed",
               height: "30px",
               width: "30px",
-              backgroundColor: "red",
+              // backgroundColor: "red",
               top: f.y,
               left: f.x,
+              backgroundImage:`url(${apple})`,
+              backgroundSize:"cover"
             }}
           ></div>
         );

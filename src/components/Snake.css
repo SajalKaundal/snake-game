@@ -1,50 +1,69 @@
 .snake-block {
   width: 30px;
   height: 30px;
-  background-color: rgb(9, 255, 87);
+  /* background-color: rgb(9, 255, 87); */
   position: fixed;
+  background-size: contain;
 }
 
 .snake-head {
   width: 30px;
   height: 30px;
-  background-color: green;
-  border-radius: 50%; /* makes it round */
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
 }
 
-/* eyes */
-.snake-head::before,
-.snake-head::after {
-  content: "";
-  width: 5px;
-  height: 5px;
-  background: white;
-  border-radius: 50%;
+.snake-head-Up {
+  background-image: url(../assets/snake/head_up.png);
 }
 
-.snake-head.up {
-  transform: rotate(0deg);
+.snake-head-Right {
+  background-image: url(../assets/snake/head_right.png);
 }
 
-.snake-head.right {
-  transform: rotate(90deg);
+.snake-head-Down {
+  background-image: url(../assets/snake/head_down.png);
 }
 
-.snake-head.down {
-  transform: rotate(180deg);
+.snake-head-Left {
+  background-image: url(../assets/snake/head_left.png);
 }
 
-.snake-head.left {
-  transform: rotate(270deg);
+.snake-body-Up,.snake-body-Down{
+  background-image: url(../assets/snake/body_vertical.png);
 }
-.snake-tail {
-  width: 20px;
-  height: 20px;
-  background-color: darkgreen;
-  border-radius: 50% 50% 30% 30%;
-  position: absolute;
+
+.snake-body-Left,.snake-body-Right{
+  background-image: url(../assets/snake/body_horizontal.png);
+}
+
+.snake-body-bottomleft{
+  background-image: url(../assets/snake/body_bottomleft.png);
+}
+
+.snake-body-bottomright{
+  background-image: url(../assets/snake/body_bottomright.png);
+}
+
+.snake-body-topright{
+  background-image: url(../assets/snake/body_topright.png);
+}
+
+.snake-body-topleft{
+  background-image: url(../assets/snake/body_topleft.png);
+}
+
+.snake-tail-Up {
+  background-image: url(../assets/snake/tail_down.png);
+ 
+}
+.snake-tail-Down {
+  background-image: url(../assets/snake/tail_up.png);
+ 
+}
+.snake-tail-Left {
+  background-image: url(../assets/snake/tail_right.png);
+ 
+}
+.snake-tail-Right {
+  background-image: url(../assets/snake/tail_left.png);
+ 
 }

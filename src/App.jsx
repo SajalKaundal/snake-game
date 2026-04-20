@@ -8,12 +8,12 @@ import GameOver from "./components/GameOver";
 
 function App() {
   const [snake, setSnake] = useState(
-    Array.from({ length: 10 }, (_, i) => ({ x: 0, y: i * 30 })),
+    Array.from({ length: 10 }, (_, i) => ({ x: 0, y: i * 30,direction:"Up",prevDirection:"Up" })),
   );
   const [fruits, setFruits] = useState(
-    Array.from({ length: 20 }, () => generateFruit(snake)),
+    Array.from({ length: 100 }, () => generateFruit(snake)),
   );
-  
+  console.log(snake)
   // console.log(fruits)
   return (
     <>
