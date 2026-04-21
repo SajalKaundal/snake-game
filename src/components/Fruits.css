@@ -1,0 +1,19 @@
+.apple{
+  background-image: url(../assets/snake/apple.png);
+}
+
+.banana{
+  background-image: url(../assets/snake/banana.png);
+}
+
+.pineapple{
+  background-image: url(../assets/snake/pineapple.png);
+}
+
+.mango{
+  background-image: url(../assets/snake/mango.png);
+}
+
+.litchi{
+  background-image: url(../assets/snake/litchi.png);
+}

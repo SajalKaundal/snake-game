@@ -1,5 +1,5 @@
 // import { useEffect} from "react";
-import apple from '../assets/snake/apple.png'
+import "./Fruits.css"
 const Fruits = ({ fruits }) => {
   // console.log(fruits);
   // useEffect(()=>{
@@ -12,11 +12,12 @@ const Fruits = ({ fruits }) => {
   //   });
   // },[])
 
+  // console.log(fruits)
   return (
     <>
-      {fruits.map((f) => {
+      {fruits.map((f,index) => {
         return (
-          <div
+          <div key={index}
             style={{
               position: "fixed",
               height: "30px",
@@ -24,9 +25,9 @@ const Fruits = ({ fruits }) => {
               // backgroundColor: "red",
               top: f.y,
               left: f.x,
-              backgroundImage:`url(${apple})`,
               backgroundSize:"cover"
             }}
+            className={f.type}
           ></div>
         );
       })}
