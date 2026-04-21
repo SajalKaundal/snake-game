@@ -1,12 +1,13 @@
 import "./App.css";
 import Fruits from "./components/Fruits";
 import Snake from "./components/Snake";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import generateFruit from "./utils/generateFruit";
 import GameOver from "./components/GameOver";
 
 function App() {
-  const [snake, setSnake] = useState(
+  const [start,setStart] = useState(false)
+  const [snake, setSnake] = useState(() =>
     Array.from({ length: 10 }, (_, i) => ({
       x: 0,
       y: i * 30,
@@ -14,13 +15,16 @@ function App() {
       prevDirection: "Up",
     })),
   );
-  const [fruits, setFruits] = useState(
-    Array.from({ length: 100 }, () => (generateFruit(snake))),
-  );
+  const [fruits, setFruits] = useState(() => {
+    const initialFruits = [];
+    for (let i = 0; i < 50; i++) {
+      initialFruits.push(generateFruit(snake, initialFruits));
+    }
+    return initialFruits;
+  });
   useEffect(() => {
-  console.log("App mounted");
-  return () => console.log("App unmounted");
-}, []);
+    console.log("fruit changed");
+  }, [fruits]);
   // console.log(generateFruit(snake))
   // console.log(snake)
   // console.log(fruits)
@@ -32,6 +36,8 @@ function App() {
         setSnake={setSnake}
         setFruits={setFruits}
         fruits={fruits}
+        start={start}
+        setStart={setStart}
       />
       <Fruits fruits={fruits} />
     </>
