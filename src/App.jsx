@@ -11,7 +11,7 @@ function App() {
     Array.from({ length: 10 }, (_, i) => ({ x: 0, y: i * 30,direction:"Up",prevDirection:"Up" })),
   );
   const [fruits, setFruits] = useState(
-    Array.from({ length: 100 }, () => generateFruit(snake)),
+    Array.from({ length: 10 }, () => generateFruit(snake)),
   );
   console.log(snake)
   // console.log(fruits)

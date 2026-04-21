@@ -9,46 +9,46 @@ function fruitBit(fruits, headX, headY) {
   return hitIndex;
 }
 
-function bodyImage(direction, prevDirection) {
+function bodyImage(direction, nextDirection) {
   // straight
-  if (direction === prevDirection) {
-    return `snake-body-${prevDirection}`;
+  if (direction === nextDirection) {
+    return `snake-body-${nextDirection}`;
   }
 
   // corners
   if (
-    (prevDirection === "Up" && direction === "Right") ||
-    (prevDirection === "Left" && direction === "Down")
+    (nextDirection === "Up" && direction === "Right") ||
+    (nextDirection === "Left" && direction === "Down")
   ) {
     return "snake-body-topleft";
   }
 
   if (
-    (prevDirection === "Up" && direction === "Left") ||
-    (prevDirection === "Right" && direction === "Down")
+    (nextDirection === "Up" && direction === "Left") ||
+    (nextDirection === "Right" && direction === "Down")
   ) {
     return "snake-body-topright";
   }
 
   if (
-    (prevDirection === "Down" && direction === "Right") ||
-    (prevDirection === "Left" && direction === "Up")
+    (nextDirection === "Down" && direction === "Right") ||
+    (nextDirection === "Left" && direction === "Up")
   ) {
     return "snake-body-bottomleft";
   }
 
   if (
-    (prevDirection === "Down" && direction === "Left") ||
-    (prevDirection === "Right" && direction === "Up")
+    (nextDirection === "Down" && direction === "Left") ||
+    (nextDirection === "Right" && direction === "Up")
   ) {
     return "snake-body-bottomright";
   }
 
-  return `snake-body-${prevDirection}`;
+  return `snake-body-${nextDirection}`;
 }
 
 function Snake({ snake, setSnake, setFruits, fruits }) {
-  const [speed, setSpeed] = useState(0);
+  const [score, setScore] = useState(0);
   const [direction, setDirection] = useState("Up");
   const [visible, setVisible] = useState("d-none");
   const [isGameOver, setIsGameOver] = useState(false);
@@ -95,7 +95,6 @@ function Snake({ snake, setSnake, setFruits, fruits }) {
       setSnake((prev) => {
         const newSnake = [...prev];
         const head = { ...newSnake[0] };
-        const next = { ...newSnake[1] };
         const maxX = Math.floor(width / cellSize) * cellSize;
         const maxY = Math.floor(height / cellSize) * cellSize;
 
@@ -139,7 +138,7 @@ function Snake({ snake, setSnake, setFruits, fruits }) {
         newSnake.unshift(head); // add new head
         const index = fruitBit(fruits, head.x, head.y);
         if (index !== -1) {
-          // setSpeed((prev)=>prev-2)
+          setScore((prev) => prev + 1);
           setFruits((prev) => {
             const newFruits = [...prev];
             newFruits[index] = generateFruit(newSnake);
@@ -154,10 +153,10 @@ function Snake({ snake, setSnake, setFruits, fruits }) {
           setIsGameOver(true);
         }
         for (let i = 1; i < newSnake.length; i++) {
-          if(i===newSnake.length-1){
-            newSnake[i].direction = newSnake[i - 1].direction
+          if (i === newSnake.length - 1) {
+            newSnake[i].direction = newSnake[i - 1].direction;
           }
-          newSnake[i].prevDirection = newSnake[i - 1].direction;
+          newSnake[i].nextDirection = newSnake[i - 1].direction;
         }
         return newSnake;
       });
@@ -165,7 +164,7 @@ function Snake({ snake, setSnake, setFruits, fruits }) {
     }, 100);
 
     return () => clearInterval(interval);
-  }, [direction, fruits, height, setFruits, setSnake, speed, width]);
+  }, [direction, fruits, height, setFruits, score, width]);
   // console.log(`topPosition ${topPosition}`);
   // console.log(`leftPostion ${leftPosition}`);
   return (
@@ -174,14 +173,17 @@ function Snake({ snake, setSnake, setFruits, fruits }) {
         className="d-flex align-items-center justify-content-center"
         style={{ width: "100vw", height: "100vh" }}
       >
-        <div className="">{speed}</div>
+        <div className="text-center position-fixed top-0 start-0 z-1">
+          <h4>Score</h4>
+          {score}
+        </div>
         {snake.map((segment, index) => (
           <div
             key={index}
-            className={`snake-block 
+            className={`snake-block
               ${index === 0 ? `snake-head-${segment.direction}` : ""}
               ${index === snake.length - 1 ? `snake-tail-${segment.direction}` : ""}
-              ${index > 0 && index < snake.length - 1 ? bodyImage(segment.direction, segment.prevDirection) : ""}
+              ${index > 0 && index < snake.length - 1 ? bodyImage(segment.direction, segment.nextDirection) : ""}
             `}
             style={{
               top: segment.y,
