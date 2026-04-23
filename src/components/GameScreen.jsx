@@ -5,15 +5,16 @@ import Fruits from "./Fruits";
 
 const CELL_SIZE = 30;
 const FRUITS_QUANTITY = 5;
+const SNAKE_SIZE = 5; 
 function GameScreen({ setScore }) {
   const containerRef = useRef();
   const [boardWidth, setBoardWidth] = useState(600);
   const [boardHeight, setBoardHeight] = useState(480);
   const [start, setStart] = useState(false);
   const [snake, setSnake] = useState(() =>
-    Array.from({ length: FRUITS_QUANTITY }, (_, i) => ({
-      x: 0,
-      y: i * CELL_SIZE,
+    Array.from({ length: SNAKE_SIZE }, (_, i) => ({
+      x: i * CELL_SIZE,
+      y: 0,
       direction: "Up",
       prevDirection: "Up",
     })),
@@ -21,7 +22,7 @@ function GameScreen({ setScore }) {
   
   const [fruits, setFruits] = useState(() => {
     const initialFruits = [];
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < FRUITS_QUANTITY; i++) {
       initialFruits.push(generateFruit(snake, initialFruits, 600, 480, CELL_SIZE));
     }
     return initialFruits;
