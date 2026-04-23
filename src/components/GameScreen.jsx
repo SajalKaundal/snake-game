@@ -4,14 +4,14 @@ import Snake from "./Snake";
 import Fruits from "./Fruits";
 
 const CELL_SIZE = 30;
-
+const FRUITS_QUANTITY = 5;
 function GameScreen({ setScore }) {
   const containerRef = useRef();
   const [boardWidth, setBoardWidth] = useState(600);
   const [boardHeight, setBoardHeight] = useState(480);
   const [start, setStart] = useState(false);
   const [snake, setSnake] = useState(() =>
-    Array.from({ length: 10 }, (_, i) => ({
+    Array.from({ length: FRUITS_QUANTITY }, (_, i) => ({
       x: 0,
       y: i * CELL_SIZE,
       direction: "Up",
