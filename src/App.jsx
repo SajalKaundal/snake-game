@@ -1,46 +1,38 @@
 import "./App.css";
+import React, { useState } from "react";
 import Fruits from "./components/Fruits";
 import Snake from "./components/Snake";
-import { useState, useEffect } from "react";
-import generateFruit from "./utils/generateFruit";
 import GameOver from "./components/GameOver";
+import Score from "./components/Score";
+import Header from "./components/Header";
+import LeaderBoard from "./components/LeaderBoard";
+import GameScreen from "./components/GameScreen";
 
 function App() {
-  const [start,setStart] = useState(false)
-  const [snake, setSnake] = useState(() =>
-    Array.from({ length: 10 }, (_, i) => ({
-      x: 0,
-      y: i * 30,
-      direction: "Up",
-      prevDirection: "Up",
-    })),
-  );
-  const [fruits, setFruits] = useState(() => {
-    const initialFruits = [];
-    for (let i = 0; i < 50; i++) {
-      initialFruits.push(generateFruit(snake, initialFruits));
-    }
-    return initialFruits;
-  });
-  useEffect(() => {
-    console.log("fruit changed");
-  }, [fruits]);
-  // console.log(generateFruit(snake))
-  // console.log(snake)
-  // console.log(fruits)
+  const [score, setScore] = useState(0);
 
   return (
-    <>
-      <Snake
-        snake={snake}
-        setSnake={setSnake}
-        setFruits={setFruits}
-        fruits={fruits}
-        start={start}
-        setStart={setStart}
-      />
-      <Fruits fruits={fruits} />
-    </>
+    <div className="container-fluid m-0 p-0 d-flex flex-column" style={{ minHeight: "100vh" }}>
+      <div className="row m-0 border-bottom">
+        <div className="col-12 text-center p-3">
+          <Header />
+        </div>
+      </div>
+      
+      <div className="row m-0 flex-grow-1">
+        <div className="col-lg-2 col-md-2 border-end d-flex flex-column justify-content-center pt-5">
+          <Score score={score} />
+        </div>
+        
+        <div className="col-lg-8 col-md-8 p-0 d-flex position-relative">
+          <GameScreen setScore={setScore} />
+        </div>
+        
+        <div className="col-lg-2 col-md-2 border-start d-flex flex-column justify-content-center pt-5">
+          <LeaderBoard />
+        </div>
+      </div>
+    </div>
   );
 }
 

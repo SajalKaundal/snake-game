@@ -2,7 +2,7 @@
   width: 30px;
   height: 30px;
   /* background-color: rgb(9, 255, 87); */
-  position: fixed;
+  position: absolute;
   background-size: contain;
 }
 

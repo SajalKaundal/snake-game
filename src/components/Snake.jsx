@@ -48,16 +48,9 @@ function bodyImage(direction, nextDirection) {
   return `snake-body-${nextDirection}`;
 }
 
-function Snake({ snake, setSnake, setFruits, fruits,start,setStart }) {
-  const [score, setScore] = useState(0);
+function Snake({ snake, setSnake, setFruits, fruits,start,setStart,BOARD_WIDTH,BOARD_HEIGHT,CELL_SIZE, setScore }) {
   const [direction, setDirection] = useState("Up");
-  const [visible, setVisible] = useState("d-none");
   const [isGameOver, setIsGameOver] = useState(false);
-
-  const cellSize = 30;
-
-  const width = window.innerWidth;
-  const height = window.innerHeight;
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -89,48 +82,48 @@ function Snake({ snake, setSnake, setFruits, fruits,start,setStart }) {
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [direction]);
+  }, [direction,isGameOver]);
 
   useEffect(() => {
     const interval = start && setInterval(() => {
       setSnake((prev) => {
         const newSnake = [...prev];
         const head = { ...newSnake[0] };
-        const maxX = Math.floor(width / cellSize) * cellSize;
-        const maxY = Math.floor(height / cellSize) * cellSize;
+        const maxX = Math.floor(BOARD_WIDTH / CELL_SIZE) * CELL_SIZE;
+        const maxY = Math.floor(BOARD_HEIGHT / CELL_SIZE) * CELL_SIZE;
 
         if (direction === "Up") {
           if (head.y <= 0) {
-            head.y = maxY - cellSize;
+            head.y = maxY - CELL_SIZE;
           } else {
-            head.y -= cellSize;
+            head.y -= CELL_SIZE;
           }
           head.direction = "Up";
         }
 
         if (direction === "Down") {
-          if (head.y >= maxY - cellSize) {
+          if (head.y >= maxY - CELL_SIZE) {
             head.y = 0;
           } else {
-            head.y += cellSize;
+            head.y += CELL_SIZE;
           }
           head.direction = "Down";
         }
 
         if (direction === "Left") {
           if (head.x <= 0) {
-            head.x = maxX - cellSize;
+            head.x = maxX - CELL_SIZE;
           } else {
-            head.x -= cellSize;
+            head.x -= CELL_SIZE;
           }
           head.direction = "Left";
         }
 
         if (direction === "Right") {
-          if (head.x >= maxX - cellSize) {
+          if (head.x >= maxX - CELL_SIZE) {
             head.x = 0;
           } else {
-            head.x += cellSize;
+            head.x += CELL_SIZE;
           }
           head.direction = "Right";
         }
@@ -143,7 +136,7 @@ function Snake({ snake, setSnake, setFruits, fruits,start,setStart }) {
           setFruits((prev) => {
             const newFruits = [...prev];
             console.log("SajalKaundal");
-            newFruits[index] = generateFruit(newSnake, newFruits);
+            newFruits[index] = generateFruit(newSnake, newFruits,BOARD_WIDTH,BOARD_HEIGHT,CELL_SIZE);
             return newFruits;
           });
         } else {
@@ -151,7 +144,6 @@ function Snake({ snake, setSnake, setFruits, fruits,start,setStart }) {
         }
         if (gameOver(newSnake)) {
           clearInterval(interval);
-          setVisible("d-block");
           setIsGameOver(true);
         }
         for (let i = 1; i < newSnake.length; i++) {
@@ -166,19 +158,15 @@ function Snake({ snake, setSnake, setFruits, fruits,start,setStart }) {
     }, 100);
 
     return () => clearInterval(interval);
-  }, [direction,start]);
+  }, [direction,start,fruits]);
   // console.log(`topPosition ${topPosition}`);
   // console.log(`leftPostion ${leftPosition}`);
   return (
-    <>
-      <div
-        className="d-flex align-items-center justify-content-center"
-        style={{ width: "100vw", height: "100vh" }}
-      >
-        <div className="text-center position-fixed top-0 start-0">
+    <div className="d-flex justify-content-center align-items-center h-100 ">
+        {/* <div className="text-centertop-0 start-0">
           <h4>Score</h4>
           {score}
-        </div>
+        </div> */}
         {snake.map((segment, index) => (
           <div
             key={index}
@@ -199,9 +187,8 @@ function Snake({ snake, setSnake, setFruits, fruits,start,setStart }) {
           </div>
         ))}
         {!start && <StartGame setStart={setStart}/> }
-        <GameOver visible={visible} setVisible={setVisible}  />
-      </div>
-    </>
+        {isGameOver && <GameOver setIsGameOver={setIsGameOver} />}
+    </div>
   );
 }
 

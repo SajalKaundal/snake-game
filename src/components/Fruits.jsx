@@ -19,7 +19,7 @@ const Fruits = ({ fruits }) => {
         return (
           <div key={index}
             style={{
-              position: "fixed",
+              position: "absolute",
               height: "30px",
               width: "30px",
               // backgroundColor: "red",
