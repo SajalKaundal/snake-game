@@ -13,16 +13,16 @@ function GameScreen({ setScore }) {
   const [start, setStart] = useState(false);
   const [snake, setSnake] = useState(() =>
     Array.from({ length: SNAKE_SIZE }, (_, i) => ({
-      x: i * CELL_SIZE,
-      y: 0,
-      direction: "Up",
-      prevDirection: "Up",
+      x: (i * CELL_SIZE)+300,
+      y: 270,
+      direction: "Left",
+      prevDirection: "Left",
     })),
   );
   
   const [fruits, setFruits] = useState(() => {
     const initialFruits = [];
-    for (let i = 0; i < FRUITS_QUANTITY; i++) {
+    for (let i = 0; i <= FRUITS_QUANTITY; i++) {
       initialFruits.push(generateFruit(snake, initialFruits, 600, 480, CELL_SIZE));
     }
     return initialFruits;

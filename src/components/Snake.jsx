@@ -49,7 +49,7 @@ function bodyImage(direction, nextDirection) {
 }
 
 function Snake({ snake, setSnake, setFruits, fruits,start,setStart,BOARD_WIDTH,BOARD_HEIGHT,CELL_SIZE, setScore }) {
-  const [direction, setDirection] = useState("Up");
+  const [direction, setDirection] = useState("Left");
   const [isGameOver, setIsGameOver] = useState(false);
 
   useEffect(() => {
