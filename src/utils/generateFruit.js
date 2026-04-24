@@ -15,13 +15,13 @@ export default function generateFruit(
   // console.log(snake)
 
   // console.trace("called generate fruits")
-  const stack = new Error().stack;
+  // const stack = new Error().stack;
 
-  if (stack.includes("Snake.jsx")) {
-    console.log("Called from Snake.jsx");
-    console.log(snake)
-    console.log(fruits)
-  }
+  // if (stack.includes("Snake.jsx")) {
+  //   console.log("Called from Snake.jsx");
+  //   console.log(snake)
+  //   console.log(fruits)
+  // }
   while (true) {
     newFruit = {
       x: Math.floor(Math.random() * maxX) * CELL_SIZE,

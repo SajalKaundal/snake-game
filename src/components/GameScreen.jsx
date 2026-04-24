@@ -4,7 +4,7 @@ import Snake from "./Snake";
 import Fruits from "./Fruits";
 
 const CELL_SIZE = 30;
-const FRUITS_QUANTITY = 5;
+const FRUITS_QUANTITY = 300;
 const SNAKE_SIZE = 5; 
 function GameScreen({ setScore }) {
   const containerRef = useRef();
@@ -22,8 +22,8 @@ function GameScreen({ setScore }) {
   
   const [fruits, setFruits] = useState(() => {
     const initialFruits = [];
-    for (let i = 0; i <= FRUITS_QUANTITY; i++) {
-      initialFruits.push(generateFruit(snake, initialFruits, 600, 480, CELL_SIZE));
+    for (let i = 0; i < FRUITS_QUANTITY; i++) {
+      initialFruits.push(generateFruit(snake, initialFruits, boardWidth, boardHeight, CELL_SIZE));
     }
     return initialFruits;
   });
@@ -63,9 +63,9 @@ function GameScreen({ setScore }) {
   }, [snake]);
 
   return (
-    <div ref={containerRef} className="flex-grow-1 w-100 d-flex justify-content-center align-items-center overflow-hidden">
+    <div ref={containerRef} className="flex-grow-1 w-100 d-flex justify-content-center align-items-center">
       <div 
-        className="position-relative border border-2 border-dark"
+        className="position-relative border border-4 border-light rounded-3"
         style={{
           width: `${boardWidth}px`,
           height: `${boardHeight}px`,

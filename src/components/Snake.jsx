@@ -4,49 +4,8 @@ import generateFruit from "../utils/generateFruit";
 import gameOver from "../utils/gameOver";
 import GameOver from "./GameOver";
 import StartGame from "./StartGame";
-
-function fruitBit(fruits, headX, headY) {
-  const hitIndex = fruits.findIndex((f) => f.x === headX && f.y === headY);
-  return hitIndex;
-}
-
-function bodyImage(direction, nextDirection) {
-  // straight
-  if (direction === nextDirection) {
-    return `snake-body-${nextDirection}`;
-  }
-
-  // corners
-  if (
-    (nextDirection === "Up" && direction === "Right") ||
-    (nextDirection === "Left" && direction === "Down")
-  ) {
-    return "snake-body-topleft";
-  }
-
-  if (
-    (nextDirection === "Up" && direction === "Left") ||
-    (nextDirection === "Right" && direction === "Down")
-  ) {
-    return "snake-body-topright";
-  }
-
-  if (
-    (nextDirection === "Down" && direction === "Right") ||
-    (nextDirection === "Left" && direction === "Up")
-  ) {
-    return "snake-body-bottomleft";
-  }
-
-  if (
-    (nextDirection === "Down" && direction === "Left") ||
-    (nextDirection === "Right" && direction === "Up")
-  ) {
-    return "snake-body-bottomright";
-  }
-
-  return `snake-body-${nextDirection}`;
-}
+import fruitBit from "../utils/fruitBit";
+import bodyImage from "../utils/bodyImage";
 
 function Snake({ snake, setSnake, setFruits, fruits,start,setStart,BOARD_WIDTH,BOARD_HEIGHT,CELL_SIZE, setScore }) {
   const [direction, setDirection] = useState("Left");
