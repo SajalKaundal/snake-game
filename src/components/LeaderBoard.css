@@ -1,0 +1,29 @@
+/* Mobile-first controller styling */
+.controls-section {
+  padding-bottom: 20px;
+}
+
+.controller-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Middle row (A S D) */
+.middle-row {
+  display: flex;
+  gap: 12px;
+}
+
+/* Button styling */
+.controller-grid button {
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid #333;
+  border-radius: 12px;
+  background-color: white;
+}
+

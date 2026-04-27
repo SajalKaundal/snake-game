@@ -1,3 +1,20 @@
-body{
+body {
   margin: 0px;
+}
+/* Controls stay at bottom */
+@media (max-width: 768px) {
+  .controls-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px 10px;
+    background: white;
+    z-index: 1000;
+  }
+
+  /* VERY IMPORTANT: reserve space for controls */
+  .game-container {
+    padding-bottom: 140px; /* same height as controls */
+  }
 }

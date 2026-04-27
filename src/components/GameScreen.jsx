@@ -4,9 +4,9 @@ import Snake from "./Snake";
 import Fruits from "./Fruits";
 
 const CELL_SIZE = 30;
-const FRUITS_QUANTITY = 300;
+const FRUITS_QUANTITY = 5;
 const SNAKE_SIZE = 5; 
-function GameScreen({ setScore }) {
+function GameScreen({ setScore,input,setInput }) {
   const containerRef = useRef();
   const [boardWidth, setBoardWidth] = useState(600);
   const [boardHeight, setBoardHeight] = useState(480);
@@ -82,6 +82,8 @@ function GameScreen({ setScore }) {
           BOARD_HEIGHT={boardHeight}
           CELL_SIZE={CELL_SIZE}
           setScore={setScore}
+          input={input}
+          setInput={setInput}
         />
         <Fruits fruits={fruits} />
       </div>
