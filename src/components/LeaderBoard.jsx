@@ -1,6 +1,8 @@
 import "./LeaderBoard.css"
-
-function LeaderBoard({ setInput }) {
+import { Left,Right,Up,Down } from "../redux/snakeControlSlice";
+import { useDispatch } from "react-redux";
+function LeaderBoard() {
+  const dispatch = useDispatch()
   return (
     <div className="text-center w-100">
 
@@ -24,12 +26,12 @@ function LeaderBoard({ setInput }) {
         <h5 className="mb-4 text-decoration-underline">Controls</h5>
 
         <div className="controller-grid mx-auto">
-          <button onClick={() => setInput("W")}>↑</button>
+          <button onClick={() => dispatch(Up())}>↑</button>
 
           <div className="middle-row">
-            <button onClick={() => setInput("A")}>←</button>
-            <button onClick={() => setInput("S")}>↓</button>
-            <button onClick={() => setInput("D")}>→</button>
+            <button onClick={() => dispatch(Left())}>←</button>
+            <button onClick={() => dispatch(Down())}>↓</button>
+            <button onClick={() => dispatch(Right())}>→</button>
           </div>
         </div>
       </div>

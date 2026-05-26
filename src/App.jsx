@@ -10,7 +10,6 @@ import GameScreen from "./components/GameScreen";
 
 function App() {
   const [score, setScore] = useState(0);
-  const [input,setInput] = useState("")
   return (
     <div className="container-fluid m-0 p-0 d-flex flex-column" style={{ minHeight: "100vh" }}>
       <div className="row m-0 border-bottom">
@@ -25,11 +24,11 @@ function App() {
         </div>
         
         <div className="col-lg-8 col-md-8 p-0 d-flex position-relative game-container">
-          <GameScreen setScore={setScore} input={input} setInput={setInput} />
+          <GameScreen setScore={setScore}/>
         </div>
         
         <div className="col-lg-2 col-md-2 border-start d-flex flex-column justify-content-center pt-5">
-          <LeaderBoard  setInput={setInput}/>
+          <LeaderBoard/>
         </div>
       </div>
     </div>

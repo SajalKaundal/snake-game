@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useState, useEffect, useRef, useLayoutEffect, useReducer } from "react";
 import generateFruit from "../utils/generateFruit";
 import Snake from "./Snake";
 import Fruits from "./Fruits";
@@ -6,7 +6,8 @@ import Fruits from "./Fruits";
 const CELL_SIZE = 30;
 const FRUITS_QUANTITY = 5;
 const SNAKE_SIZE = 5; 
-function GameScreen({ setScore,input,setInput }) {
+function GameScreen({ setScore,setInput }) {
+
   const containerRef = useRef();
   const [boardWidth, setBoardWidth] = useState(600);
   const [boardHeight, setBoardHeight] = useState(480);
@@ -82,7 +83,6 @@ function GameScreen({ setScore,input,setInput }) {
           BOARD_HEIGHT={boardHeight}
           CELL_SIZE={CELL_SIZE}
           setScore={setScore}
-          input={input}
           setInput={setInput}
         />
         <Fruits fruits={fruits} />

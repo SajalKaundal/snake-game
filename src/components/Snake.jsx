@@ -6,7 +6,8 @@ import GameOver from "./GameOver";
 import StartGame from "./StartGame";
 import fruitBit from "../utils/fruitBit";
 import bodyImage from "../utils/bodyImage";
-
+import { useDispatch, useSelector } from "react-redux";
+import { Clear } from "../redux/snakeControlSlice";
 function Snake({
   snake,
   setSnake,
@@ -18,66 +19,65 @@ function Snake({
   BOARD_HEIGHT,
   CELL_SIZE,
   setScore,
-  input,
-  setInput
 }) {
   const [direction, setDirection] = useState("Left");
   const [isGameOver, setIsGameOver] = useState(false);
-
+  const snakeDirection = useSelector((state) => state.snakeControl.direction);
+  const dispatch = useDispatch();
   useEffect(() => {
     const handleScreenInput = async () => {
       let displayKey = "";
       if (!isGameOver) {
-        displayKey = input;
+        displayKey = snakeDirection;
       }
-      if (displayKey === "W" && direction !== "Down") {
+      if (displayKey === "Up" && direction !== "Down") {
         // setTopPosition((prev) => prev - 10);
-        setInput("")
+        dispatch(Clear());
         setDirection("Up");
-      } else if (displayKey === "S" && direction !== "Up") {
+      } else if (displayKey === "Down" && direction !== "Up") {
         // setTopPosition((prev) => prev + 10);
-        setInput("")
+        dispatch(Clear());
         setDirection("Down");
-      } else if (displayKey === "D" && direction !== "Left") {
+      } else if (displayKey === "Right" && direction !== "Left") {
         // setLeftPosition((prev) => prev + 10);
-        setInput("")
+        dispatch(Clear());
         setDirection("Right");
-      } else if (displayKey === "A" && direction !== "Right") {
+      } else if (displayKey === "Left" && direction !== "Right") {
         // setLeftPosition((prev) => prev - 10);
-        setInput("")
+        dispatch(Clear());
         setDirection("Left");
       }
     };
-    if (input) {
-      handleScreenInput()
+    if (snakeDirection) {
+      handleScreenInput();
     }
 
     const handleKeyDown = (e) => {
       const key = e.key.toUpperCase();
       let displayKey = "";
       if (!isGameOver) {
-        displayKey = input;
+        displayKey = snakeDirection;
       }
       if (
-        (key === "ARROWUP" || key === "W" || displayKey === "W") &&
+        (key === "ARROWUP" || key === "W" || displayKey === "Up") &&
         direction !== "Down"
       ) {
         // setTopPosition((prev) => prev - 10);
         setDirection("Up");
       } else if (
-        (key === "ARROWDOWN" || key === "S" || displayKey === "S") &&
+        (key === "ARROWDOWN" || key === "S" || displayKey === "Down") &&
         direction !== "Up"
       ) {
         // setTopPosition((prev) => prev + 10);
         setDirection("Down");
       } else if (
-        (key === "ARROWRIGHT" || key === "D" || displayKey === "D") &&
+        (key === "ARROWRIGHT" || key === "D" || displayKey === "Right") &&
         direction !== "Left"
       ) {
         // setLeftPosition((prev) => prev + 10);
         setDirection("Right");
       } else if (
-        (key === "ARROWLEFT" || key === "A" || displayKey === "A") &&
+        (key === "ARROWLEFT" || key === "A" || displayKey === "Left") &&
         direction !== "Right"
       ) {
         // setLeftPosition((prev) => prev - 10);
@@ -91,7 +91,7 @@ function Snake({
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [direction, isGameOver, input]);
+  }, [direction, isGameOver, snakeDirection, dispatch]);
 
   useEffect(() => {
     const interval =
@@ -179,32 +179,62 @@ function Snake({
   // console.log(`topPosition ${topPosition}`);
   // console.log(`leftPostion ${leftPosition}`);
   return (
-    <div className="d-flex justify-content-center align-items-center h-100 ">
-      {/* <div className="text-centertop-0 start-0">
+    <div>
+      <div
+        className="game-board"
+        style={{
+          width: BOARD_WIDTH,
+          height: BOARD_HEIGHT,
+          position: "relative",
+
+          backgroundColor: "#87d226",
+
+          backgroundImage: `
+      linear-gradient(45deg, #befd7c 25%, transparent 25%),
+      linear-gradient(-45deg, #befd7c 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #befd7c 75%),
+      linear-gradient(-45deg, transparent 75%, #befd7c 75%)
+    `,
+
+          backgroundSize: `${CELL_SIZE * 2}px ${CELL_SIZE * 2}px`,
+          backgroundPosition: `
+      0 0,
+      0 ${CELL_SIZE}px,
+      ${CELL_SIZE}px -${CELL_SIZE}px,
+      -${CELL_SIZE}px 0px
+    `,
+        }}
+      >
+        <div className="d-flex justify-content-center align-items-center h-100">
+          {/* <div className="text-centertop-0 start-0">
           <h4>Score</h4>
           {score}
         </div> */}
-      {snake.map((segment, index) => (
-        <div
-          key={index}
-          className={`snake-block
-              ${index === 0 ? `snake-head-${segment.direction}` : ""}
+          {snake.map((segment, index) => (
+            <div
+              key={index}
+              className={`snake-block
+            ${index === 0 ? `snake-head-${segment.direction}` : ""}
               ${index === snake.length - 1 ? `snake-tail-${segment.direction}` : ""}
               ${index > 0 && index < snake.length - 1 ? bodyImage(segment.direction, segment.nextDirection) : ""}
             `}
-          style={{
-            top: segment.y,
-            left: segment.x,
-          }}
-        >
-          {" "}
-          <div
-            className={index === 0 && index === snake.length && "snake-round"}
-          ></div>
+              style={{
+                top: segment.y,
+                left: segment.x,
+              }}
+            >
+              {" "}
+              <div
+                className={
+                  index === 0 && index === snake.length && "snake-round"
+                }
+              ></div>
+            </div>
+          ))}
+          {!start && <StartGame setStart={setStart} />}
+          {isGameOver && <GameOver setIsGameOver={setIsGameOver} />}
         </div>
-      ))}
-      {!start && <StartGame setStart={setStart} />}
-      {isGameOver && <GameOver setIsGameOver={setIsGameOver} />}
+      </div>
     </div>
   );
 }
